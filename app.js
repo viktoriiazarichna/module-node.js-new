@@ -10,15 +10,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.use(express.static(path.join(__dirname, 'static')));
 
 app.use('/users', userRouter);
 
-const readFilePromise = utils.promisify(fs.readFile);
+const parseUsers = utils.promisify(fs.readFile);
 
-readFilePromise('./lesson3/dataBase/usersBase.json').then(users => {
-    console.log(users.toString());
-});
+// readFilePromise('./dataBase/usersBase.json').then(users => {
+//     console.log(users.toString());
+// });
 
 app.listen(3000, () => {
     console.log('App listen 3000')

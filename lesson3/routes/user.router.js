@@ -14,8 +14,6 @@ router.post('/login',  userController.loginUser);
 
 router.delete('/:userId', userMiddleware.checkUserExist, userController.deleteUserById);
 
-router.delete('/:username', userController.deleteUserByName);
-
 router.patch('/:username', userController.updateUser);
 
 module.exports = router;

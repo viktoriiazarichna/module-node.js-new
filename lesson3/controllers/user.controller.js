@@ -25,20 +25,9 @@ module.exports = {
     },
 
     deleteUserById: (req, res) => {
-        res.status(204).json(req.params.userId);
+        res.json(req.params.userId);
     },
 
-    deleteUserByName: (req, res) => {
-
-        const users = userService.findAll();
-        const username = req.params.username;
-        const filterUser = users.filter(user => user.username !== username);
-
-        if (users.length === filterUser.length) {
-            return res.status(204).send('username not found');
-        }
-        res.send('User deleted successfully');
-    },
 
     updateUser: (req, res) => {
 
@@ -46,12 +35,7 @@ module.exports = {
         const userData = req.body
         const existUsers = userService.findAll();
 
-
-        const findExist = existUsers.find( user => user.username === username )
-        if (!findExist) {
-            return res.status(409).send('user not found')
-        }
-        const updateUser = existUsers.filter( user => user.username !== username )
+        const updateUser = existUsers.filter(user => user.username !== username)
 
         updateUser.push(userData)
         res.send('User data updated successfully');
