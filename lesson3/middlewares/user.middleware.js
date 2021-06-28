@@ -2,16 +2,17 @@ const userService = require('../services/user.service');
 
 module.exports = {
     checkUserExist: (req, res, next) => {
-        const {userEmail} = req.params;
+        const {userId} = req.params;
 
-        const userByEmail = userService.findOneByEmail(userEmail);
+        const userById = userService.findOneById(userId);
 
-        if(userByEmail) {
-            throw new Error('User already in database!');
+        if(!userById) {
+            throw new Error('User not found!');
         }
-        req.user = userByEmail;
+        req.user = userById;
 
         next();
     }
+
 
 };
