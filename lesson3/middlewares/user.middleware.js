@@ -12,7 +12,19 @@ module.exports = {
         req.user = userById;
 
         next();
-    }
+    },
 
+    checkUser: (req, res, next) => {
+        const {userEmail} = req.params;
+
+        const userByEmail = userService.findOneByEmail(userEmail);
+
+        if(userByEmail) {
+            throw new Error('User is in dataBase!');
+        }
+        req.user = userByEmail;
+
+        next();
+    },
 
 };

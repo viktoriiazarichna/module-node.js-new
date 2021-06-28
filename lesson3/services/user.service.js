@@ -9,5 +9,6 @@ module.exports = {
         existUsers.push({id, name, email, password});
     },
 
-    findOneById: (userId) => existUsers[userId]
+    findOneById: (userId) => existUsers[userId],
+    findOneByEmail: (userEmail) => existUsers[userEmail]
 }

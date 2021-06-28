@@ -7,6 +7,10 @@ module.exports = {
         res.send(users);
     },
 
+    getUserById: (req, res) => {
+        res.json(req.params.userId);
+    },
+
     registerUser: (req, res) => {
         userService.insertUser(req.body);
         res.json('Registration is successful');
@@ -17,59 +21,40 @@ module.exports = {
         const userData = req.body;
 
         const user = users.find(user => (user.email === userData.email) && (user.password === userData.password));
-        res.redirect(`/users/${user.id}`);
-    },
-
-    getUserById: (req, res) => {
-        const user = userService.findOneById();
-        res.render('user', {user});
-    },
-
-
-
-    updateUser: (req, res) => {
-
-        const username = req.params.name
-
-        const userData = req.body
-
-        const existUsers = userService.findAll();
-
-
-        const findExist = existUsers.find( user => user.name === username )
-        if (!findExist) {
-            return res.status(409).send({error: true, msg: 'username not exist'})
-        }
-
-        const updateUser = existUsers.filter( user => user.name !== username )
-
-        updateUser.push(userData)
-
-        res.send({success: true, msg: 'User data updated successfully'})
+        res.json('You are logged in', {user});
     },
 
     deleteUserById: (req, res) => {
-        const {user} = req;
-
-        res.status(204).json(user);
+        res.status(204).json(req.params.userId);
     },
 
     deleteUserByName: (req, res) => {
-        const userName = req.params.name
 
-        //get the existing userdata
         const users = userService.findAll();
+        const username = req.params.username;
+        const filterUser = users.filter(user => user.username !== username);
 
-        //filter the userdata to remove it
-        const filterUser = users.filter( user => user.name !== userName )
-
-        if ( users.length === filterUser.length ) {
-            return res.status(204).send({error: true, msg: 'username does not exist'})
+        if (users.length === filterUser.length) {
+            return res.status(204).send('username not found');
         }
+        res.send('User deleted successfully');
+    },
+
+    updateUser: (req, res) => {
+
+        const username = req.params.username
+        const userData = req.body
+        const existUsers = userService.findAll();
 
 
-        res.send({success: true, msg: 'User removed successfully'})
+        const findExist = existUsers.find( user => user.username === username )
+        if (!findExist) {
+            return res.status(409).send('user not found')
+        }
+        const updateUser = existUsers.filter( user => user.username !== username )
 
+        updateUser.push(userData)
+        res.send('User data updated successfully');
     }
 };
 

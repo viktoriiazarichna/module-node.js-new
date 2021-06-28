@@ -6,17 +6,17 @@ const {userMiddleware} = require('../middlewares');
 
 router.get('/', userController.getAllUsers);
 
-router.post('/register', userController.registerUser);
-
-router.post('/login', userMiddleware.checkUserExist, userController.loginUser);
-
 router.get('/:userId', userController.getUserById);
 
-router.delete('/:userId', userController.deleteUserById);
+router.post('/register', userMiddleware.checkUser, userController.registerUser);
 
-router.delete('/:userName', userController.deleteUserByName);
+router.post('/login',  userController.loginUser);
 
-router.patch('/:userName', userController.updateUser);
+router.delete('/:userId', userMiddleware.checkUserExist, userController.deleteUserById);
+
+router.delete('/:username', userController.deleteUserByName);
+
+router.patch('/:username', userController.updateUser);
 
 module.exports = router;
 
