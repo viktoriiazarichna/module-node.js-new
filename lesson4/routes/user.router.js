@@ -9,8 +9,8 @@ router.get('/:userId', userMiddleware.checkUserExist, userController.getUserById
 
 router.post('/', userController.registerUser);
 
-router.delete('/:id', userMiddleware.checkUserExist, userController.deleteUserById);
+router.delete('/:userId', userController.deleteUser);
 
-// router.patch('/:username', userMiddleware.checkUserExist, userController.updateUserById);
+router.patch('/:username', userController.updateUser);
 
 module.exports = router;
