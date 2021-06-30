@@ -1,5 +1,6 @@
 const { responseCodesEnum } = require('../constants');
 const { User } = require('../dataBase');
+const userService = require('../services/user.service');
 
 module.exports = {
 
@@ -44,7 +45,8 @@ module.exports = {
   updateUser: async (req, res, next) => {
     try {
       const userName = req.params.name;
-      const updatedUser = await User.updateOne(userName);
+      const userData = req.body;
+      const updatedUser = await User.findOneAndUpdate(userName, userData);
       res.status(responseCodesEnum.OK).json(updatedUser);
     } catch (e) {
       next(e);

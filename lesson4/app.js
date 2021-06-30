@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { userRouter } = require('./routes');
+const { ROUT_NOT_FOUND, UNKNOWN_ERROR } = require('./errors/error-messages');
+const { PORT } = require('./constants/constant');
 
 const app = express();
 
@@ -13,24 +15,16 @@ app.use('/users', userRouter);
 app.use('*', _notFoundHandler);
 app.use(_handleErrors);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log('App listen 3000');
 });
 
 function _handleErrors(err, req, res, next) {
-  res
-    .status(err.status)
-    .json({
-      message: err.message || 'Unknown error',
-      customCode: err.code || 0
-    });
+  res.status(err.status).json(0, UNKNOWN_ERROR.message, UNKNOWN_ERROR.code);
 }
 
 function _notFoundHandler(err, req, res, next) {
-  next({
-    status: err.status || 404,
-    message: err.message || 'Rout not found'
-  });
+  next(404, ROUT_NOT_FOUND.message, ROUT_NOT_FOUND.code);
 }
 
 function _mongooseConnector() {
