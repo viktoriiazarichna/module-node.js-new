@@ -1,6 +1,5 @@
 const { responseCodesEnum } = require('../constants');
 const { User } = require('../dataBase');
-const userService = require('../services/user.service');
 const { passwordHasher } = require('../helpers');
 
 module.exports = {

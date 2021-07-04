@@ -1,8 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { User } = require('./dataBase');
-const { passwordHasher } = require('./helpers');
-const { userRouter } = require('./routes');
+
+const { userRouter, authorizationRouter } = require('./routes');
 const { ROUT_NOT_FOUND, UNKNOWN_ERROR } = require('./errors/error-messages');
 const { PORT } = require('./constants/constant');
 
@@ -13,21 +12,7 @@ _mongooseConnector();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.post('/auth', async (req, res) => {
-  try {
-    const { password, email } = req.body;
-    const userByEmail = await User.findOne({ email });
-    if (!userByEmail) {
-      throw new Error('Wrong email or password!!!');
-    }
-
-    await passwordHasher.compare(userByEmail.password, password);
-    res.json(userByEmail);
-  } catch (e) {
-    console.log(e);
-    res.json(e.message);
-  }
-});
+app.post('/auth', authorizationRouter);
 app.use('/users', userRouter);
 app.use('*', _notFoundHandler);
 app.use(_handleErrors);

@@ -10,5 +10,11 @@ module.exports = {
   UNKNOWN_ERROR: {
     message: 'Unknown error',
     code: 0
+  },
+
+  WRONG_CREDENTIALS: {
+    message: 'Wrong email or password!',
+    code: 401
   }
+
 };

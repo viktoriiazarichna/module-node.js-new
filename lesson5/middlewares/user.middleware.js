@@ -2,7 +2,6 @@ const { User } = require('../dataBase');
 const userValidator = require('../validators/user/user.validator');
 const ErrorHandler = require('../errors/ErrorHandler');
 const { USER_NOT_FOUND } = require('../errors/error-messages');
-// const userService = require('../services/user.service');
 
 module.exports = {
   checkUserExist: async (req, res, next) => {
