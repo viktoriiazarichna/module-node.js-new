@@ -25,5 +25,10 @@ module.exports = {
   WRONG_EMAIL_PASSWORD: {
     message: 'Wrong email or password',
     code: 401
+  },
+
+  USER_EXISTS: {
+    message: 'User is already in database',
+    code: 201
   }
 };

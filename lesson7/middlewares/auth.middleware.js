@@ -1,6 +1,7 @@
 const { constants: { AUTHORIZATION } } = require('../constants');
 const { OAuth } = require('../dataBase');
-const { ErrorHandler, errorMessages } = require('../errors');
+const ErrorHandler = require('../errors');
+const { TOKEN_NOT_FOUND, WRONG_TOKEN } = require('../errors/error-messages');
 const { authHelper } = require('../helpers');
 
 module.exports = {
@@ -9,7 +10,7 @@ module.exports = {
       const token = req.get(AUTHORIZATION);
 
       if (!token) {
-        throw new ErrorHandler(401, errorMessages.TOKEN_NOT_FOUND.message, errorMessages.TOKEN_NOT_FOUND.code);
+        throw new ErrorHandler(401, TOKEN_NOT_FOUND.message, TOKEN_NOT_FOUND.code);
       }
 
       await authHelper.verifyToken(token);
@@ -17,7 +18,7 @@ module.exports = {
       const tokenObject = await OAuth.findOne({ accessToken: token });
 
       if (!tokenObject) {
-        throw new ErrorHandler(401, errorMessages.WRONG_TOKEN.message, errorMessages.WRONG_TOKEN.code);
+        throw new ErrorHandler(401, WRONG_TOKEN.message, WRONG_TOKEN.code);
       }
       req.user = tokenObject.user;
 

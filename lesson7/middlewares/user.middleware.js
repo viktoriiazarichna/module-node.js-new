@@ -1,7 +1,6 @@
 const { User } = require('../dataBase');
-const ErrorHandler = require('../errors/ErrorHandler');
-const { USER_NOT_FOUND } = require('../errors/error-messages');
-// const userService = require('../services/user.service');
+const ErrorHandler = require('../errors');
+const { USER_NOT_FOUND, USER_EXISTS } = require('../errors/error-messages');
 const userValidator = require('../validators/user.validator');
 
 module.exports = {
@@ -43,22 +42,9 @@ module.exports = {
       const userByEmail = await User.findOne({ email });
 
       if (userByEmail) {
-        throw new Error('User is already in database');
+        throw new ErrorHandler(201, USER_EXISTS.message, USER_EXISTS.code);
       }
 
-      next();
-    } catch (e) {
-      next(e);
-    }
-  },
-
-  getUserByDynamicParam: (paramName, searchIn = 'body', dbKey = paramName) => async (req, res, next) => {
-    try {
-      const valueOfParams = req[searchIn][paramName];
-
-      const user = await User.findOne({ [dbKey]: valueOfParams }).select('+password');
-
-      req.user = user;
       next();
     } catch (e) {
       next(e);

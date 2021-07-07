@@ -1,13 +1,14 @@
 const { constants: { AUTHORIZATION }, responseCodesEnum } = require('../constants');
 const { OAuth } = require('../dataBase');
 const { passwordHasher, authHelper } = require('../helpers');
-const { ErrorHandler, errorMessages } = require('../errors');
+const ErrorHandler = require('../errors');
+const { WRONG_EMAIL_PASSWORD } = require('../errors/error-messages');
 
 module.exports = {
   login: async (req, res, next) => {
     try {
       if (!req.user) {
-        throw new ErrorHandler(401, errorMessages.WRONG_EMAIL_PASSWORD.message, errorMessages.WRONG_EMAIL_PASSWORD.code);
+        throw new ErrorHandler(401, WRONG_EMAIL_PASSWORD.message, WRONG_EMAIL_PASSWORD.code);
       }
       const { password: hashPassword, _id } = req.user;
       const { password } = req.body;

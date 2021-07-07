@@ -17,7 +17,5 @@ module.exports = {
     const secretWord = tokenType === 'access' ? ACCESS_TOKEN_SECRET : REFRESH_TOKEN_SECRET;
 
     await verifyPromise(token, secretWord);
-
-    console.log(verify);
   }
 };
