@@ -1,12 +1,13 @@
 const bcrypt = require('bcrypt');
-const { ErrorHandler, errorMessages } = require('../errors');
+const ErrorHandler = require('../errors');
+const { WRONG_CREDENTIALS } = require('../errors/error-messages');
 
 module.exports = {
   compare: async (hashedPassword, password) => {
     const isPasswordMatched = await bcrypt.compare(password, hashedPassword);
 
     if (!isPasswordMatched) {
-      throw new ErrorHandler(401, errorMessages.WRONG_CREDENTIALS.message, errorMessages.WRONG_CREDENTIALS.code);
+      throw new ErrorHandler(401, WRONG_CREDENTIALS.message, WRONG_CREDENTIALS.code);
     }
   },
 
