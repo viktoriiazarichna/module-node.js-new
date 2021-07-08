@@ -2,13 +2,13 @@ const { constants: { AUTHORIZATION }, responseCodesEnum } = require('../constant
 const { OAuth } = require('../dataBase');
 const { passwordHasher, authHelper } = require('../helpers');
 const ErrorHandler = require('../errors');
-const { WRONG_EMAIL_PASSWORD } = require('../errors/error-messages');
+const { WRONG_CREDENTIALS } = require('../errors/error-messages');
 
 module.exports = {
   login: async (req, res, next) => {
     try {
       if (!req.user) {
-        throw new ErrorHandler(401, WRONG_EMAIL_PASSWORD.message, WRONG_EMAIL_PASSWORD.code);
+        throw new ErrorHandler(401, WRONG_CREDENTIALS.message, WRONG_CREDENTIALS.code);
       }
       const { password: hashPassword, _id } = req.user;
       const { password } = req.body;

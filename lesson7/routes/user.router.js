@@ -11,6 +11,6 @@ router.post('/', userMiddleware.checkUserValidity, userController.registerUser);
 
 router.delete('/:userId', userController.deleteUser);
 
-router.patch('/:username', userController.updateUser);
+router.patch('/:username', userMiddleware.checkUserValidity, userController.updateUser);
 
 module.exports = router;

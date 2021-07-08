@@ -22,7 +22,7 @@ module.exports = {
     code: 401
   },
 
-  WRONG_EMAIL_PASSWORD: {
+  WRONG_CREDENTIALS: {
     message: 'Wrong email or password',
     code: 401
   },

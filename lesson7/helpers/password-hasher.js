@@ -6,7 +6,7 @@ module.exports = {
     const isPasswordMatched = await bcrypt.compare(password, hashedPassword);
 
     if (!isPasswordMatched) {
-      throw new ErrorHandler(401, errorMessages.WRONG_EMAIL_PASSWORD.message, errorMessages.WRONG_EMAIL_PASSWORD.code);
+      throw new ErrorHandler(401, errorMessages.WRONG_CREDENTIALS.message, errorMessages.WRONG_CREDENTIALS.code);
     }
   },
 
