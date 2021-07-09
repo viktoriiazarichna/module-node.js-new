@@ -1,4 +1,6 @@
-const { constants: { AUTHORIZATION }, emailActionsEnum, responseCodesEnum } = require('../constants');
+const {
+  constants: { AUTHORIZATION }, emailActionsEnum, responseCodesEnum, responseEnum
+} = require('../constants');
 const { OAuth } = require('../dataBase');
 const { passwordHasher, authHelper } = require('../helpers');
 const ErrorHandler = require('../errors');
@@ -37,17 +39,22 @@ module.exports = {
 
       await OAuth.remove({ accessToken: token });
       await mailService.sendMail('viktoriiazarichna@gmail.com', emailActionsEnum.WELCOME, { userName: 'Victoria' });
-      res.status(responseCodesEnum.NO_CONTENT).json('Success');
+      res.status(responseCodesEnum.NO_CONTENT).json(responseEnum.SUCCESS);
     } catch (e) {
       next(e);
     }
   },
 
-  refresh: (req, res, next) => {
+  refresh: async (req, res, next) => {
     try {
-      const { body } = req;
+      const token = req.get(AUTHORIZATION);
+      const { _id } = req.user;
 
-      res.json(body);
+      await OAuth.remove({ refreshToken: token });
+
+      const refreshTokenPair = authHelper.generateTokenPair();
+      await OAuth.create({ ...refreshTokenPair, user: _id });
+      res.json(responseEnum.SUCCESS);
     } catch (e) {
       next(e);
     }
