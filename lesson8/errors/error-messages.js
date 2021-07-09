@@ -27,6 +27,11 @@ module.exports = {
     code: 401
   },
 
+  WRONG_TEMPLATE: {
+    message: 'Wrong template',
+    code: 404
+  },
+
   USER_EXISTS: {
     message: 'User is already in database',
     code: 201

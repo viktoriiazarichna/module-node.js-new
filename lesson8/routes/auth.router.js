@@ -5,6 +5,6 @@ const { authMiddleware, userMiddleware } = require('../middlewares');
 
 router.post('/login', userMiddleware.checkIsEmailExist, authController.login);
 router.post('/logout', authMiddleware.checkAccessToken, authController.logout);
-router.post('/refresh', authController.refresh);
+router.post('/refresh', authMiddleware.checkRefreshToken, authController.refresh);
 
 module.exports = router;
