@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { userRouter, authRouter } = require('./routes');
 const { ROUT_NOT_FOUND, UNKNOWN_ERROR } = require('./errors/error-messages');
-const { constants } = require('./constants');
+const { constants, responseCodesEnum } = require('./constants');
 
 const app = express();
 
@@ -26,7 +26,7 @@ function _handleErrors(err, req, res, next) {
 }
 
 function _notFoundHandler(err, req, res, next) {
-  next(404, ROUT_NOT_FOUND.message, ROUT_NOT_FOUND.code);
+  next(responseCodesEnum.ROUT_NOT_FOUND, ROUT_NOT_FOUND.message, ROUT_NOT_FOUND.code);
 }
 
 function _mongooseConnector() {
