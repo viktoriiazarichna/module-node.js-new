@@ -1,10 +1,10 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
-const mongoose = require('mongoose');
 const path = require('path');
+const mongoose = require('mongoose');
 const { userRouter, authRouter } = require('./routes');
 const { ROUT_NOT_FOUND, UNKNOWN_ERROR } = require('./errors/error-messages');
-const { PORT } = require('./constants/constant');
+const { constants, responseCodesEnum } = require('./constants');
 
 const app = express();
 
@@ -16,14 +16,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'static')));
 app.use(fileUpload({}));
 
+app.post('/auth', authRouter);
 app.use('/users', userRouter);
-app.use('./auth', authRouter);
 
 app.use('*', _notFoundHandler);
 app.use(_handleErrors);
 
-app.listen(PORT, () => {
-  console.log('App listen 3000');
+app.listen(constants.PORT, () => {
+  console.log(`App listen ${constants.PORT}`);
 });
 
 function _handleErrors(err, req, res, next) {
@@ -31,7 +31,7 @@ function _handleErrors(err, req, res, next) {
 }
 
 function _notFoundHandler(err, req, res, next) {
-  next(404, ROUT_NOT_FOUND.message, ROUT_NOT_FOUND.code);
+  next(responseCodesEnum.ROUT_NOT_FOUND, ROUT_NOT_FOUND.message, ROUT_NOT_FOUND.code);
 }
 
 function _mongooseConnector() {
