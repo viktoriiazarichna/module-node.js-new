@@ -1,3 +1,7 @@
+const { responseCodesEnum } = require('../constants');
+const ErrorHandler = require('../errors');
+const { WRONG_FILE_FORMAT } = require('../errors/error-messages');
+
 const {
   constants: {
     DOCS_MIMETYPES,
@@ -37,7 +41,7 @@ module.exports = {
           }
           videos.push(files[i]);
         } else {
-          throw new Error('Wrong file format');
+          throw new ErrorHandler(responseCodesEnum.WRONG_FILE_TEMPLATE, WRONG_FILE_FORMAT.message, WRONG_FILE_FORMAT.code);
         }
       }
 
@@ -54,7 +58,7 @@ module.exports = {
   checkAvatar: (req, res, next) => {
     try {
       if (req.photos.length > 1) {
-        throw new Error('Just one avatar allowed');
+        throw new Error('Only one avatar allowed');
       }
       [req.avatar] = req.photos;
 

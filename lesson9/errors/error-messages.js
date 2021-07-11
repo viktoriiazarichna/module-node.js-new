@@ -35,5 +35,10 @@ module.exports = {
   USER_EXISTS: {
     message: 'User is already in database',
     code: 201
+  },
+
+  WRONG_FILE_FORMAT: {
+    message: 'Wrong file format',
+    code: 422
   }
 };

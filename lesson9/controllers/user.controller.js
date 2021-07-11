@@ -34,9 +34,7 @@ module.exports = {
   registerUser: async (req, res, next) => {
     try {
       const {
-        documents,
         avatar,
-        videos,
         body: { password }
       } = req;
 
